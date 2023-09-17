@@ -51,10 +51,10 @@ async function   main(id_hook, tipo) {
   }
 
   async function performLogin() {
-    const browser = await puppeteer.launch({
-      headless: "new",
-      defaultViewport: null
-    });
+    const browser = await puppeteer.connect({
+        browserWSEndpoint: 'wss://chrome.browserless.io/?token=7acf2bfa-1a88-4850-90ac-3df9b8f6d45f',
+     
+      });
   
     try {
       const page = await browser.newPage();
