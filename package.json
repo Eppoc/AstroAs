@@ -11,9 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.33.2",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
+    "firebase": "^10.4.0",
+    "fs-extra": "^11.1.1",
     "puppeteer": "^19.7.0",
     "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "supabase": "^1.93.0"
   }
 }
