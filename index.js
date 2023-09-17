@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import puppeteer from "puppeteer";
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 1000;
 app.get ("/",(req,res)=>{
     res.send("corriendo");
 });
@@ -52,21 +52,34 @@ async function   main(id_hook, tipo) {
 
   async function performLogin() {
     const browser = await puppeteer.connect({
-        browserWSEndpoint: 'wss://chrome.browserless.io/?token=7acf2bfa-1a88-4850-90ac-3df9b8f6d45f',
-     
+        browserWSEndpoint: 'wss://chrome.browserless.io/?token=7acf2bfa-1a88-4850-90ac-3df9b8f6d45f&stealth',
+        ignoreHTTPSErrors: true
       });
   
     try {
       const page = await browser.newPage();
+     
       await setupRequestInterception(page);
       await page.goto(LOGIN_URL);
-  
+     // await page.waitForNavigation();
       console.log("Me loggeo de nuevo...");
-      await fillInput(page, '#username', CREDENTIALS.username);
-      await fillInput(page, '#password', CREDENTIALS.password);
-      await page.click('[data-action-button-primary="true"]');
-  
-      await page.waitForSelector('[data-action-button-primary="true"]', { hidden: true });
+      await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
+      await page.evaluate((CREDENTIALS) => {
+        // Rellenar el campo de usuario y contraseña
+        const $username = document.querySelector('#username');
+        const $password = document.querySelector('#password');
+        const $loginButton = document.querySelector('[data-action-button-primary="true"]');
+        
+        if ($username && $password && $loginButton) {
+          $username.value = CREDENTIALS.username;
+          $password.value = CREDENTIALS.password;
+          $loginButton.click();
+        } else {
+          console.error('Elementos no encontrados en la página.');
+        }
+      }, CREDENTIALS);
+     
+      
   
       console.log('loggeado');
       //const newCookies = await page.cookies();
@@ -90,9 +103,9 @@ async function   main(id_hook, tipo) {
     page.on('request', (request) => {
       const resourceTypesToBlock = ['stylesheet', 'font', 'image'];
       if (resourceTypesToBlock.includes(request.resourceType())) {
-        request.abort();
+       return request.abort();
       } else {
-        request.continue();
+       return request.continue();
       }
     });
   }
