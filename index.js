@@ -1,19 +1,19 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import puppeteer from "puppeteer";
-
-const app = express();
-const PORT = process.env.PORT || 1000;
-app.get ("/",(req,res)=>{
-    res.send("corriendo");
-});
 const LOGIN_URL = 'https://id.kajabi.com/u/login';
 const CREDENTIALS = {
   username: 'astroas@astroterapeutica.com',
   password: 'u0026grantable##Type'
 };
-main();
-app.use(bodyParser.json());
+const app = express();
+const PORT = process.env.PORT || 3000;
+app.get ("/",(req,res)=>{
+    res.send("corriendo");
+});
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Webhook endpoint 
 app.post('/', (req, res) => {
@@ -23,7 +23,16 @@ app.post('/', (req, res) => {
 
   
   console.log('Received webhook data:', payload);
-
+  if (id_hook && tipo) {
+    try {
+       main(id_hook, tipo);
+      console.log('Successfully executed main()');
+    } catch (error) {
+      console.error('Error in main():', error);
+    }
+  } else {
+    console.log("No se han recibido los datos necesarios");
+  }
   
  
 
@@ -36,7 +45,7 @@ app.listen(PORT, () => {
   console.log(`Webhook listener is running on port ${PORT}`);
 });
 
-async function   main(id_hook, tipo) {
+async function main(id_hook, tipo) {
     try {
      // const storedCookies = await loadCookies();
       //if (storedCookies && await isSessionValid(storedCookies)) {
