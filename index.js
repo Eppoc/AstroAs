@@ -135,6 +135,8 @@ async function main(id_hook, tipo) {
       console.error('Error during login:', error);
     } finally {
       console.log('Listo...');
+      const pages = await browser.pages();
+      await Promise.all(pages.map(async (page) => await page.close()));
       await browser.close();
     }
   }
@@ -255,6 +257,7 @@ async function main(id_hook, tipo) {
       console.log('Error no hay datos-repetir');
     } finally {
       await closeBrowser(browser);
+      console.log("terminado________________________________________________");
     }
   }
 
@@ -266,6 +269,8 @@ async function main(id_hook, tipo) {
   }
 
   async function closeBrowser(browser) {
+    const pages = await browser.pages();
+    await Promise.all(pages.map(async (page) => await page.close()));
     await browser.close();
   }
 
