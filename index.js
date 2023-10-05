@@ -263,7 +263,7 @@ async function main(id_hook, tipo) {
 
   async function launchBrowser() {
     return  await puppeteer.connect({
-        browserWSEndpoint: 'wss://chrome.browserless.io/?token=7acf2bfa-1a88-4850-90ac-3df9b8f6d45f&stealth',
+        browserWSEndpoint: 'wss://chrome.browserless.io/?token=2747729f-0c40-40db-aa78-49503bab2f5c&stealth',
         ignoreHTTPSErrors: true
       });
   }
@@ -358,10 +358,10 @@ async function main(id_hook, tipo) {
              // envía valores a Supabase
              if (idr===null){
               console.log("no hay data");
-              await writeToFirestore(P_ID,idr,paypalid,offerPurchaseCouponCode,pathValue);
+             // await writeToFirestore(P_ID,idr,paypalid,offerPurchaseCouponCode,pathValue);
              }else{
              await enviar_data_supabase(P_ID,idr,paypalid,offerPurchaseCouponCode,pathValue,T_rel);
-             await writeToFirestore(P_ID,idr,paypalid,offerPurchaseCouponCode,pathValue);
+             //await writeToFirestore(P_ID,idr,paypalid,offerPurchaseCouponCode,pathValue);
              }
          
            
