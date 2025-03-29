@@ -97,7 +97,7 @@ async function main(id_hook, tipo) {
 
   async function performLogin() {
     const browser = await puppeteer.connect({
-        browserWSEndpoint: 'wss://chrome.browserless.io/?token=2747729f-0c40-40db-aa78-49503bab2f5c&stealth',
+        browserWSEndpoint: 'wss://chrome.browserless.io/?token=7acf2bfa-1a88-4850-90ac-3df9b8f6d45f&stealth',
         ignoreHTTPSErrors: true
       });
   
